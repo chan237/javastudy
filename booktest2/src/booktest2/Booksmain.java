@@ -158,6 +158,9 @@ public class Booksmain {
 
 		// 1.load
 		con = DBconnection.dbCon();
+		
+		con.setAutoCommit(false);
+		
 		Books books = new Books(0, "Head First Java", "kdj", "2008", 23000);
 		// 2.statement
 		pstmt = con.prepareStatement("INSERT INTO books VALUES (book_id_seq.nextval, ?, ?, ?, ?)");
@@ -168,6 +171,11 @@ public class Booksmain {
 		int result = pstmt.executeUpdate();
 		// 내용입력 체크하기
 		System.out.println((result != 0) ? "입력성공" : "입력실패");
+		if(result != 0) {
+			con.commit();
+		}else {
+			con.rollback();
+		}
 		// 출력하기
 		// 객체반납
 		DBconnection.dbClose(con, pstmt);
