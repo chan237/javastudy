@@ -32,8 +32,11 @@ public class Booksmain {
 			case BookMenu.DELETE:
 				booksDelete();
 				break;
-			case BookMenu.SALARY_UP:
-				employeeSalaryUp();
+			case BookMenu.SALARY_UP_PROC:
+				employeeSalaryUpProc();
+				break;
+			case BookMenu.SALARY_UP_FUNC:
+				employeeSalaryUpFunc();
 				break;
 			case BookMenu.END:
 				exitFlag = true;
@@ -45,9 +48,34 @@ public class Booksmain {
 
 		System.out.println("THE END");
 	}// end main
-	
-	//연봉인상
-	private static void employeeSalaryUp() throws SQLException {
+
+	private static void employeeSalaryUpFunc() throws SQLException {
+		// Connection
+		Connection con = null;
+		CallableStatement cstmt = null;
+		// 1.load
+		con = DBconnection.dbCon();
+		// 2.statement
+		System.out.println("조회 할 ID를 입력하세요.");
+		System.out.print(">>");
+		int id = Integer.parseInt(sc.nextLine());
+		cstmt = con.prepareCall("{ ? = call BOOKS_FUNC(?)}");
+		cstmt.registerOutParameter(1, Types.VARCHAR);
+		cstmt.setInt(2, id);
+		// 출력될 데이터값으로 3번을 바인딩시킨다
+
+		int result = cstmt.executeUpdate();
+		System.out.println(cstmt.getString(1));
+
+		// 내용입력 체크하기
+		System.out.println((result != 0) ? "FUNCION성공" : "FUNCION실패");
+		// 출력하기
+		// 객체반납
+		DBconnection.dbClose(con, cstmt);
+	}
+
+	// 연봉인상
+	private static void employeeSalaryUpProc() throws SQLException {
 		// Connection
 		Connection con = null;
 		CallableStatement cstmt = null;
@@ -63,7 +91,7 @@ public class Booksmain {
 		cstmt = con.prepareCall("{call BOOKS_PROCE(?,?,?)}");
 		cstmt.setInt(1, id);
 		cstmt.setDouble(2, price);
-		//출력될 데이터값으로 3번을 바인딩시킨다
+		// 출력될 데이터값으로 3번을 바인딩시킨다
 		cstmt.registerOutParameter(3, Types.VARCHAR);
 		int result = cstmt.executeUpdate();
 		System.out.println(cstmt.getString(3));
@@ -105,8 +133,8 @@ public class Booksmain {
 		// 1.load
 		con = DBconnection.dbCon();
 		// 2.statement
-		//수정할 데이터 입력
-		Books books = new Books(3,"kkk","javajava","2024",50000);
+		// 수정할 데이터 입력
+		Books books = new Books(3, "kkk", "javajava", "2024", 50000);
 		pstmt = con.prepareStatement("update books set title = ?, publisher = ?, year = ?, price = ? where id = ?");
 		pstmt.setString(1, books.getTitle());
 		pstmt.setString(2, books.getPublisher());
@@ -130,7 +158,7 @@ public class Booksmain {
 
 		// 1.load
 		con = DBconnection.dbCon();
-		Books books = new Books(0, "Head First Java","kdj","2008",23000);
+		Books books = new Books(0, "Head First Java", "kdj", "2008", 23000);
 		// 2.statement
 		pstmt = con.prepareStatement("INSERT INTO books VALUES (book_id_seq.nextval, ?, ?, ?, ?)");
 		pstmt.setString(1, books.getTitle());
@@ -176,7 +204,7 @@ public class Booksmain {
 	}
 
 	private static void printMenu() {
-		System.out.println("BOOKS MENU(1. 출력, 2. 입력, 3.수정, 4.삭제, 5.책값인상, 6.종료)");
+		System.out.println("BOOKS MENU(1. 출력, 2. 입력, 3.수정, 4.삭제, 5.책값인상, 6.책값조회, 7.종료)");
 		System.out.print(">>");
 	}
 
