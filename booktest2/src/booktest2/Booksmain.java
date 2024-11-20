@@ -1,10 +1,12 @@
 package booktest2;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -30,6 +32,9 @@ public class Booksmain {
 			case BookMenu.DELETE:
 				booksDelete();
 				break;
+			case BookMenu.SALARY_UP:
+				employeeSalaryUp();
+				break;
 			case BookMenu.END:
 				exitFlag = true;
 				break;
@@ -40,6 +45,35 @@ public class Booksmain {
 
 		System.out.println("THE END");
 	}// end main
+	
+	//연봉인상
+	private static void employeeSalaryUp() throws SQLException {
+		// Connection
+		Connection con = null;
+		CallableStatement cstmt = null;
+		// 1.load
+		con = DBconnection.dbCon();
+		// 2.statement
+		System.out.println("인상할 ID를 입력하세요.");
+		System.out.print(">>");
+		int id = Integer.parseInt(sc.nextLine());
+		System.out.println("인상할 금액을 입력하세요.");
+		System.out.print(">>");
+		int price = Integer.parseInt(sc.nextLine());
+		cstmt = con.prepareCall("{call BOOKS_PROCE(?,?,?)}");
+		cstmt.setInt(1, id);
+		cstmt.setDouble(2, price);
+		//출력될 데이터값으로 3번을 바인딩시킨다
+		cstmt.registerOutParameter(3, Types.VARCHAR);
+		int result = cstmt.executeUpdate();
+		System.out.println(cstmt.getString(3));
+
+		// 내용입력 체크하기
+		System.out.println((result != 0) ? "프로시저성공" : "프로시저실패");
+		// 출력하기
+		// 객체반납
+		DBconnection.dbClose(con, cstmt);
+	}
 
 	// 삭제
 	private static void booksDelete() throws SQLException {
@@ -142,8 +176,8 @@ public class Booksmain {
 	}
 
 	private static void printMenu() {
-		System.out.println("BOOKS MENU(1. 출력, 2. 입력, 3.수정, 4.삭제, 5.종료)");
-		System.out.println(">>");
+		System.out.println("BOOKS MENU(1. 출력, 2. 입력, 3.수정, 4.삭제, 5.책값인상, 6.종료)");
+		System.out.print(">>");
 	}
 
 	private static void booksListPrint(ArrayList<Books> booksList) {
