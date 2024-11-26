@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 import com.kh.subjectMVCProject.model.StudentVO;
+import com.kh.subjectMVCProject.model.SubjectVO;
 
 
 public class StudentRegisterManager {
@@ -24,36 +25,28 @@ public class StudentRegisterManager {
 		StudentDAO sd = new StudentDAO();
 		StudentVO svo = new StudentVO();
 
-		String sd_num; // 학번
-		String sd_name; // 이름
-		String sd_id; // 아이디
-		String sd_passwd; // 비밀번호
-		String s_num; // 학과번호
-		String sd_birthday; // 생년월일
-		String sd_phone; // 핸드폰번호
-		String sd_address; // 주소
-		String sd_email; // 이메일
-
 		boolean id_check; // 아이디 체크
 		String year; // 년도
 
 		System.out.println("학생 정보 입력");
 		System.out.print("성명 : ");
-		sd_name = input.nextLine();
+		String name = sc.nextLine();
 
 		do {
 			System.out.print("아이디(8자 이상 12자 이내) : ");
-			sd_id = input.nextLine();
-			id_check = sd.getStudentIdOverlap(sd_id);
-			if (id_check) {
-				System.out.println("중복된 아이디입니다. 다시 입력하세요");
+			String id = sc.nextLine();
+			boolean idcheck = false;
+			if (idcheck == false) {
+				break;
 			}
-		} while (id_check);
+			System.out.println("중복된 아이디입니다. 다시 입력하세요");
+		} while (true);
 
 		System.out.print("비밀번호(12자 이내) : ");
-		sd_passwd = input.nextLine();
-
-		sdao.getSubjectTotalList();
+		String passwd = sc.nextLine();
+		
+		ArrayList<SubjectVO> subjectList = sdao.totalSelect();
+		
 
 		System.out.print("학과번호 : ");
 		s_num = input.nextLine();
