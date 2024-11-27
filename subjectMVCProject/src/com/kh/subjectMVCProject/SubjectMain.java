@@ -119,27 +119,25 @@ public class SubjectMain {
 	}
 	//학과정보
 	private static void subjectMenu() throws SQLException {
-		int no;
-		SubjectRegisterManager surm = new SubjectRegisterManager();  
-
+		int no;  
 		MenuViewer.subjectMenuView();
 		no = Integer.parseInt(sc.nextLine());
 		switch (no) {
 		case SUBJECT_CHOICE.INSERT:
 			System.out.println("");
-			surm.insertManager();
+			SubjectRegisterManager.insertManager();
 			break;
 		case SUBJECT_CHOICE.UPDATE:
 			System.out.println("");
-			surm.updateManager();
+			SubjectRegisterManager.updateManager();
 			break;
 		case SUBJECT_CHOICE.LIST:
 			System.out.println("");
-			surm.selectManager();
+			SubjectRegisterManager.selectManager();
 			break;
 		case SUBJECT_CHOICE.DELETE:
 			System.out.println("");
-			surm.deleteManager();
+			SubjectRegisterManager.deleteManager();
 			break;
 		case SUBJECT_CHOICE.MAIN:
 			return;
