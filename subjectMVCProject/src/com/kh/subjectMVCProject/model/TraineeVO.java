@@ -4,21 +4,43 @@ import java.sql.Date;
 
 public class TraineeVO {
 	private int no; 		//pk seq
-	private String snum; 	//fk(student) 학생번호
+	private String s_num; 	//fk(student) 학생번호
 	private String abbre; 	//fk(lesson) 과목약어
 	private String section; //전공
-	private Date tdate; 	//수강신청일
+	private Date registDate; 	//수강신청일
+	//JOIN Student
+	private String s_name;
+	//JOIN Lesson
+	private String l_name;
+	
 	public TraineeVO() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-	public TraineeVO(int no, String snum, String abbre, String section, Date tdate) {
+	
+	public TraineeVO(int no, String s_num, String abbre, String section, Date registDate, String s_name,
+			String l_name) {
 		super();
 		this.no = no;
-		this.snum = snum;
+		this.s_num = s_num;
 		this.abbre = abbre;
 		this.section = section;
-		this.tdate = tdate;
+		this.registDate = registDate;
+		this.s_name = s_name;
+		this.l_name = l_name;
+	}
+	public TraineeVO(int no, String s_num, String abbre, String section, Date registDate) {
+		super();
+		this.no = no;
+		this.s_num = s_num;
+		this.abbre = abbre;
+		this.section = section;
+		this.registDate = registDate;
+	}
+	public TraineeVO(String s_num, String abbre, String section) {
+		super();
+		this.s_num = s_num;
+		this.abbre = abbre;
+		this.section = section;
 	}
 	public int getNo() {
 		return no;
@@ -26,11 +48,11 @@ public class TraineeVO {
 	public void setNo(int no) {
 		this.no = no;
 	}
-	public String getSnum() {
-		return snum;
+	public String getS_num() {
+		return s_num;
 	}
-	public void setSnum(String snum) {
-		this.snum = snum;
+	public void setS_num(String s_num) {
+		this.s_num = s_num;
 	}
 	public String getAbbre() {
 		return abbre;
@@ -44,15 +66,37 @@ public class TraineeVO {
 	public void setSection(String section) {
 		this.section = section;
 	}
-	public Date getTdate() {
-		return tdate;
+	public Date getRegistDate() {
+		return registDate;
 	}
-	public void setTdate(Date tdate) {
-		this.tdate = tdate;
+	public void setRegistDate(Date registDate) {
+		this.registDate = registDate;
 	}
+	
+	public String getS_name() {
+		return s_name;
+	}
+
+	public void setS_name(String s_name) {
+		this.s_name = s_name;
+	}
+	public String getL_name() {
+		return l_name;
+	}
+
+	public void setL_name(String l_name) {
+		this.l_name = l_name;
+	}
+
 	@Override
 	public String toString() {
-		return "TraineeVO [no=" + no + ", snum=" + snum + ", abbre=" + abbre + ", section=" + section + ", tdate="
-				+ tdate + "]";
+		return "TraineeVO [no=" + no + ", s_num=" + s_num + ", abbre=" + abbre + ", section=" + section
+				+ ", registDate=" + registDate + ", s_name=" + s_name + ", l_name=" + l_name + "]";
 	}
+
+	public String toAllString() {
+		return "TraineeVO [no=" + no + ", s_num=" + s_num + ", abbre=" + abbre + ", section=" + section
+				+ ", registDate=" + registDate + "]";
+	}
+	
 }

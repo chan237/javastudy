@@ -1,102 +1,131 @@
 package com.kh.subjectMVCProject.controller;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import com.kh.subjectMVCProject.model.StudentVO;
+import com.kh.subjectMVCProject.model.LessonVO;
 
 public class LessonRegisterManager {
-	public static Scanner sc = new Scanner(System.in);
-	// 전체 학생 리스트를 출력하는 기능
-	public void studentSelectManager() throws SQLException {
+	public Scanner sc = new Scanner(System.in); 
+	//과목등록(insert)
+	public void insertManager() {
+		LessonDAO ldao = new LessonDAO(); 
+		//화면으로부터 입력받는다. 
+		System.out.print("과목요약입력(O-운영 ,A-어셈블,C-컴파일,J-자료,P-프로밍,D-디비 S-소프공학)>>");
+		String abbre= (sc.nextLine()).trim();
 
-		ArrayList<StudentVO> studentList = new ArrayList<StudentVO>();
-		studentList = StudentDAO.studentSelect();
-		if(studentList == null) {
-			System.out.println("데이터가 존재하지 않습니다");
-		}
-
-		// 원래는 뷰에 넘겨줘야하나 화면이 하나라서 여기서 찍음
-		printStudentList(studentList);
-	}
-
-	// 학생 입력하기
-	public void studentInsertManager() throws SQLException {
-	
-		System.out.print("학생 이름을 입력하세요: ");
-		String name = sc.nextLine();
-		System.out.print("국어 점수를 입력하세요: ");
-		int kor = Integer.parseInt(sc.nextLine());
-		System.out.print("영어 점수를 입력하세요: ");
-		int eng = Integer.parseInt(sc.nextLine());
-		System.out.print("수학 점수를 입력하세요: ");
-		int mat = Integer.parseInt(sc.nextLine());
+		System.out.print("과목명입력(O-운영 ,A-어셈블,C-컴파일,J-자료,P-프로밍,D-디비 S-소프공학)>>");
+		String name = (sc.nextLine()).trim();
 		
-		StudentVO studentVO = new StudentVO();
-		boolean successFlag = StudentDAO.studentInsert(studentVO);
+		LessonVO lvo = new LessonVO(abbre, name); 
+		boolean successFlag = ldao.lessonInsert(lvo); 
 		
-		if(successFlag ==true) {
-			System.out.println("입력처리 성공");
-		}else {
-			System.out.println("입력처리 실패");
-		}
-	}
-
-	// 학생 정보 수정
-	public void studentUpdateManager() throws SQLException {
-
-		System.out.print("수정할 학생의 번호를 입력하세요: ");
-		int no = Integer.parseInt(sc.nextLine());
-		System.out.print("새로운 이름을 입력하세요: ");
-		String name = sc.nextLine();
-		System.out.print("새로운 국어 점수를 입력하세요: ");
-		int kor = Integer.parseInt(sc.nextLine());
-		System.out.print("새로운 영어 점수를 입력하세요: ");
-		int eng = Integer.parseInt(sc.nextLine());
-		System.out.print("새로운 수학 점수를 입력하세요: ");
-		int mat = Integer.parseInt(sc.nextLine());
-
-		StudentVO svo = new StudentVO();
-		boolean successFlag = StudentDAO.studentUpdate(svo);
-		
-		if(successFlag ==true) {
-			System.out.println("수정처리 성공");
-		}else {
-			System.out.println("수정처리 실패");
-		}
-	}
-	
-	// 학생 정보 삭제
-	public void studentDeleteManager() throws SQLException {
-		System.out.print("삭제할 학생 번호를 입력하세요: ");
-		int no = Integer.parseInt(sc.nextLine());
-		
-		StudentVO svo = new StudentVO();
-		svo.setNo(no);
-		
-		boolean successFlag = StudentDAO.studentDelete(svo);
-		
+		//화면출력
 		if(successFlag == true) {
-			System.out.println("삭제처리 성공");
+			System.out.println(name +"과목을 입력 하였습니다.");
 		}else {
-			System.out.println("삭제처리 실패");
+			System.out.println(name +"과목을 입력 실패 하였습니다.");
 		}
+	} 	
+	//과목목록(select)
+	public void selectManager() {
+		LessonDAO ldao = new LessonDAO(); 
+		//화면으로부터 입력받는다.
+		//데이타베이스 요청
+		LessonVO lvo = new LessonVO();
+		ArrayList<LessonVO> lessonList = ldao.lessonSelect(lvo); 
+		//화면출력
+		if(lessonList.size() != 0) {
+			printLessonList(lessonList); 
+		}else {
+			System.out.println("출력할 데이터가 없습니다.");
+		}
+	} 
+	//과목삭제(delete)
+	public void deleteManager() {
+		LessonDAO ldao = new LessonDAO();
+		LessonVO lvo = new LessonVO();
 
-	}
-	
-	// 학생 정보 정렬
-	public void studentSortManager() throws SQLException {
-		ArrayList<StudentVO> studentList = null;
-		studentList = StudentDAO.studentSort();
-		printStudentList(studentList);
-	}
-	// 전체 학생리스트 출력 수행
-	private void printStudentList(ArrayList<StudentVO> studentList) {
-		System.out.println("===================================");
-		for (StudentVO sv : studentList) {
-			System.out.println(sv.toString());
+		//전체리스트를 보여준다.
+		ArrayList<LessonVO> lessonList = ldao.lessonSelect(lvo); 
+		if(lessonList.size() != 0) {
+			printLessonList(lessonList); 
+		}else {
+			System.out.println("출력할 데이터가 없습니다.");
+			return; 
 		}
-		System.out.println("===================================");
+		//화면으로부터 입력받는다. 
+		System.out.print("삭제할번호>>");
+		int no = Integer.parseInt((sc.nextLine()).trim());
+		System.out.println("no="+no);
+		LessonVO lvo2 = new LessonVO(); 
+		lvo2.setNo(no);
+		System.out.println("lvo2="+lvo2.toString());
+		boolean successFlag = ldao.lessonDelete(lvo2); 
+		
+		//화면출력
+		if(successFlag == true) {
+			System.out.println(no +"번호를 삭제 하였습니다.");
+		}else {
+			System.out.println(no +"번호 삭제 실패하였습니다.");
+		}
+	} 
+	//과목수정(update)
+	public void updateManager() {
+		LessonDAO ldao = new LessonDAO();
+		LessonVO lvo = new LessonVO();
+		//수정하기 전체출력요청
+		ArrayList<LessonVO> lessonList = ldao.lessonSelect(lvo); 
+		if(lessonList.size() != 0) {
+			printLessonList(lessonList); 
+		}else {
+			System.out.println("출력할 데이터가 없습니다.");
+			return; 
+		}
+		//화면으로부터 입력받는다.
+		System.out.print("수정할 번호선택>>");
+		int no = Integer.parseInt(sc.nextLine());
+		
+		System.out.print("수정할과목입력(O-운영 ,A-어셈블,C-컴파일,J-자료,P-프로밍,D-디비 S-소프공학)>>");
+		String abbre= (sc.nextLine()).trim();
+
+		System.out.print("수정할과목명입력(O-운영 ,A-어셈블,C-컴파일,J-자료,P-프로밍,D-디비 S-소프공학)>>");
+		String name = (sc.nextLine()).trim();
+		
+		lvo = new LessonVO(no, abbre, name); 
+		boolean successFlag = ldao.lessonUpdate(lvo); 
+		
+		//화면출력
+		if(successFlag == true) {
+			System.out.println(no+"과목을 수정 하였습니다.");
+		}else {
+			System.out.println(no +"과목을 수정 실패 하였습니다.");
+		}
+	} 	
+	//과목정렬(select)
+	public void selectSortManager() {
+		LessonDAO ldao = new LessonDAO(); 
+		//화면으로부터 입력받는다.
+		//데이타베이스 요청
+		LessonVO lvo = new LessonVO();
+		ArrayList<LessonVO> lessonList = ldao.lessonSelectSort(lvo); 
+		//화면출력
+		if(lessonList.size() != 0) {
+			printLessonList(lessonList); 
+		}else {
+			System.out.println("출력할 데이터가 없습니다.");
+		}
+	} 
+	
+	//화면출력
+	public void printLessonList(ArrayList<LessonVO> lessonList) {
+		for( LessonVO data : lessonList ) {
+			System.out.println(data);
+		}
 	}
+
 }
+
+
+
+

@@ -8,6 +8,13 @@ public class LessonVO {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+	
+	public LessonVO(String abbre, String name) {
+		super();
+		this.abbre = abbre;
+		this.name = name;
+	}
+
 	public LessonVO(int no, String abbre, String name) {
 		super();
 		this.no = no;

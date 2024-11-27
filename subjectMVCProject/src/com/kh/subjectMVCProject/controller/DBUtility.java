@@ -10,11 +10,12 @@ import java.sql.Statement;
 import java.util.Properties;
 
 public class DBUtility {
-	public static Connection dbCon() {
 
+	public static Connection dbCon()  {
 		Connection con = null;
-		String filePath = "D:\\javastudy\\studentMVCproject\\src\\db.properties";
-		Properties pt = new Properties();
+		// 1. db.properties file( id, pw, url setting)
+		String filePath = "D:\\javaStudy\\subjectMVCProject\\src\\db.properties";
+		Properties pt = new Properties(); 
 		try {
 			pt.load(new FileReader(filePath));
 		} catch (Exception e) {
@@ -23,8 +24,9 @@ public class DBUtility {
 		String id = pt.getProperty("id");
 		String pw = pt.getProperty("pw");
 		String url = pt.getProperty("url");
-
-		// 1. jdbc driver load, connection
+		
+		// 2. jdbc driver load 
+		// 3. db connect 
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
 			con = DriverManager.getConnection(url, id, pw);
@@ -35,7 +37,7 @@ public class DBUtility {
 		}
 		return con;
 	}
-
+	//오버로딩 
 	public static void dbClose(Connection con, Statement stmt, ResultSet rs) {
 		if (con != null) {
 			try {
@@ -83,7 +85,7 @@ public class DBUtility {
 		}
 
 	}
-	
+
 	public static void dbClose(Connection con, Statement stmt, CallableStatement cstmt) {
 		if (con != null) {
 			try {
@@ -109,7 +111,5 @@ public class DBUtility {
 				System.out.println(e.toString());
 			}
 		}
-
 	}
-
 }
