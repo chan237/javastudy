@@ -77,12 +77,9 @@ public class LessonDAO {
         boolean successFlag = false;
         try {
             con = DBUtility.dbCon();
-            System.out.println("LESSON_DELETE");
             pstmt = con.prepareStatement(LESSON_DELETE);
             pstmt.setInt(1, lvo.getNo());
-            System.out.println("LESSON_DELETE 2");
             int count = pstmt.executeUpdate();
-            System.out.println("LESSON_DELETE 3"+ count);
             
             successFlag = (count != 0)? true : false;
             

@@ -7,7 +7,7 @@ import com.kh.subjectMVCProject.controller.StudentRegisterManager;
 import com.kh.subjectMVCProject.controller.SubjectRegisterManager;
 import com.kh.subjectMVCProject.controller.TraineeRegisterManager;
 import com.kh.subjectMVCProject.view.LESSON_CHOICE;
-import com.kh.subjectMVCProject.view.MENU_CHOICE;
+import com.kh.subjectMVCProject.view.LANDPRICE_CHOICE;
 import com.kh.subjectMVCProject.view.MenuViewer;
 import com.kh.subjectMVCProject.view.STUDENT_CHOICE;
 import com.kh.subjectMVCProject.view.SUBJECT_CHOICE;
@@ -23,19 +23,19 @@ public class SubjectMain {
 				MenuViewer.mainMenuView();
 				no = Integer.parseInt(sc.nextLine()); 
 				switch (no) {
-				case MENU_CHOICE.SUBJECT:
+				case LANDPRICE_CHOICE.SUBJECT:
 					subjectMenu();
 					break;
-				case MENU_CHOICE.STUDENT:
+				case LANDPRICE_CHOICE.STUDENT:
 					studentMenu();
 					break;
-				case MENU_CHOICE.LESSON:
+				case LANDPRICE_CHOICE.LESSON:
 					lessonMenu();
 					break;
-				case MENU_CHOICE.TRAINEE:
+				case LANDPRICE_CHOICE.TRAINEE:
 					traineeMenu();
 					break;
-				case MENU_CHOICE.EXIT:
+				case LANDPRICE_CHOICE.EXIT:
 					System.out.println("프로그램을 종료합니다.");
 					exitFlag = true; 
 					break; 

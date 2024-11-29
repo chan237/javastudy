@@ -1,6 +1,6 @@
 package com.kh.subjectMVCProject.view;
 
-public interface MENU_CHOICE {
+public interface LANDPRICE_CHOICE {
 	int SUBJECT = 1;
     int STUDENT = 2;
     int LESSON = 3;
